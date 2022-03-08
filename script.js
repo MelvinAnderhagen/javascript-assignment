@@ -16,6 +16,7 @@ const editAge = document.getElementById('editAge')
 const editBorn = document.getElementById('editBorn')
 const submitEditButton = document.getElementById('submitEditButton')
 const url = ('https://hockeyplayers.systementor.se/melvin/player');
+const search = document.getElementById('search');
 
 //Hockeyplayer class
 class hockeyPlayer{
@@ -30,6 +31,14 @@ class hockeyPlayer{
 
 //Event handlers
 
+search.addEventListener("keyup",() =>{
+    let filter = players.filter(player => player.name.toLowerCase().includes(search.value.toLowerCase()));
+    playerTableBody.innerHTML = '';
+    filter.forEach(player => {
+        renderTr(player);
+    });
+});
+
 newLink.addEventListener("click",()=>{ 
     showSection('sectionNew');    
 });
@@ -39,8 +48,6 @@ showSection('sectionList');
 });
 
 submitNewButton.addEventListener("click",()=>{ 
-    // let highestId = 0;
-
     fetch(url,{
         method:"POST",
         headers:{
@@ -63,11 +70,6 @@ submitNewButton.addEventListener("click",()=>{
             showSection('sectionList');    
             console.log(player);
         });
-    
-    // players.forEach( (player) => {
-    //     if(player.id >  highestId)
-    //         highestId = player.id;
-    // }  );
 });
 
 submitEditButton.addEventListener("click",()=>{
